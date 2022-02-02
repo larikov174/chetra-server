@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const isURL = require('validator/lib/isURL');
 
-const cardSchema = new mongoose.Schema(
+const movieSchema = new mongoose.Schema(
   {
     country: {
       type: String,
@@ -43,6 +43,7 @@ const cardSchema = new mongoose.Schema(
     image: {
       type: String,
       lowercase: true,
+      required: true,
       validate: {
         validator(v) {
           return isURL(v);
@@ -65,6 +66,7 @@ const cardSchema = new mongoose.Schema(
     thumbnail: {
       type: String,
       lowercase: true,
+      required: true,
       validate: {
         validator(v) {
           return isURL(v);
@@ -102,4 +104,4 @@ const cardSchema = new mongoose.Schema(
   { versionKey: false },
 );
 
-module.exports = mongoose.model('card', cardSchema);
+module.exports = mongoose.model('movie', movieSchema);

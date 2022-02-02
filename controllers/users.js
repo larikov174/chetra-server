@@ -65,7 +65,7 @@ module.exports.logout = (req, res) => {
   return res.status(200).send({ status: 'сессия закрыта' });
 };
 
-module.exports.updateUserData = (req, res, next) => {
+module.exports.updateUser = (req, res, next) => {
   const { name, email } = req.body;
   User.findByIdAndUpdate(
     req.user._id,
