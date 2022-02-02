@@ -1,0 +1,26 @@
+{
+  "extends": ["airbnb-base"],
+  "env": {
+    "browser": true,
+    "jest": true
+  },
+  "rules": {
+    "max-len": [
+      "error",
+      {
+        "code": 110
+      }
+    ],
+    "linebreak-style": 0,
+    "no-underscore-dangle": [
+      "error",
+      {
+        "allowAfterThis": true,
+        "allowAfterThisConstructor": true,
+        "allowFunctionParams": true,
+        "allow": ["_id"]
+      }
+    ],
+    "no-console": ["error", { "allow": ["log", "warn", "error"] }]
+  }
+}
