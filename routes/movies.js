@@ -15,12 +15,11 @@ router.post('/', celebrate({
     country: Joi.string().required().min(2).max(30),
     director: Joi.string().required().min(2).max(30),
     duration: Joi.number().required().min(2).max(300),
-    year: Joi.string().required().min(2).max(4),
-    description: Joi.string().required().min(2).max(300),
+    year: Joi.string().required().length(4),
+    description: Joi.string().required().min(2).max(2000),
     image: Joi.string().required().pattern(regExp),
     trailerLink: Joi.string().required().pattern(regExp),
     thumbnail: Joi.string().required().pattern(regExp),
-    // TODO: определить количество символов в id
     movieId: Joi.string().required(),
     nameRU: Joi.string().required().min(2).max(30),
     nameEN: Joi.string().required().min(2).max(30),
@@ -29,7 +28,6 @@ router.post('/', celebrate({
 
 router.delete('/:id', celebrate({
   params: Joi.object().keys({
-    // TODO: определить количество символов в id
     id: Joi.string().hex().required(),
   }),
 }), deleteMovie);

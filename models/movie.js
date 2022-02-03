@@ -20,23 +20,20 @@ const movieSchema = new mongoose.Schema(
     duration: {
       type: Number,
       min: 0,
-      // TODO: уточнить единицы измерения и верхний предел
       max: 300,
       required: true,
       default: 120,
     },
     year: {
       type: String,
-      minlength: 2,
-      maxlength: 4,
+      length: 4,
       required: true,
       default: 'Дата',
     },
     description: {
       type: String,
       minlength: 1,
-      // TODO: уточнить макс.длину поля
-      maxlength: 300,
+      maxlength: 2000,
       required: true,
       default: 'Описание фильма',
     },
