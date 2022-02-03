@@ -30,9 +30,10 @@ module.exports.createMovie = (req, res, next) => {
         movieId,
         owner: req.user._id,
       })
-        .populate(['owner'])
-        .orFail(new CustomError(404, 'Ошибка добавления в базу'))
-        .then((newMovie) => res.status(200).send(newMovie))
+        .then((movie) => Movie.findById(movie._id)
+          .populate(['owner'])
+          .orFail(new CustomError(404, 'Ошибка добавления в базу'))
+          .then((newMovie) => res.status(200).send(newMovie)))
         .catch((err) => {
           if (err.name === 'ValidationError') {
             next(new CustomError(400, 'Переданы невалидные данные.'));
