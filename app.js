@@ -19,10 +19,10 @@ const cors = require('./middlewares/cors');
 const movies = require('./routes/movies');
 const users = require('./routes/users');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, DB = db } = process.env;
 
 mongoose
-  .connect(db, {
+  .connect(DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -62,11 +62,12 @@ app.post(
   createUser,
 );
 
+app.get('/signout', logout);
+
 app.use(auth);
 app.use('/check', checkToken);
 app.use('/movies', movies);
 app.use('/users', users);
-app.get('/signout', logout);
 
 app.use(errorLogger);
 app.use(errors());
