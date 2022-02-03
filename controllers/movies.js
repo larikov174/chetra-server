@@ -10,7 +10,7 @@ module.exports.getMovies = (req, res, next) => {
 
 module.exports.createMovie = (req, res, next) => {
   const {
-    country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId,
+    country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, movieId,
   } = req.body;
 
   Movie.countDocuments({ movieId }, (_, count) => {
@@ -22,7 +22,7 @@ module.exports.createMovie = (req, res, next) => {
         year,
         description,
         image,
-        trailer,
+        trailerLink,
         nameRU,
         nameEN,
         thumbnail,
