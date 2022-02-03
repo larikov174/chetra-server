@@ -1,4 +1,3 @@
-// eslint-disable-next-line consistent-return
 module.exports = (req, res, next) => {
   const { method } = req;
   const { origin } = req.headers;
@@ -19,5 +18,5 @@ module.exports = (req, res, next) => {
       return res.end();
     }
   }
-  next();
+  return next();
 };
