@@ -11,7 +11,7 @@ const {
   logout,
   checkToken,
 } = require('./controllers/users');
-const CustomError = require('./utils/custom-error');
+const CustomError = require('./middlewares/custom-error-handler');
 const { db } = require('./utils/const');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const auth = require('./middlewares/auth');
@@ -31,12 +31,12 @@ mongoose
 
 const app = express();
 
+app.listen(PORT, (error) => (error ? console.log(error) : console.log(`listening port ${PORT}`)));
 app.use(helmet());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(requestLogger);
-
 app.use(cors);
 
 app.post(
@@ -71,20 +71,4 @@ app.use('/users', users);
 
 app.use(errorLogger);
 app.use(errors());
-
-app.use(() => {
-  throw new CustomError(404, 'Запрашиваемый ресурс не найден');
-});
-
-// eslint-disable-next-line
-app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
-  res.status(statusCode).send({
-    message: !message ? 'На сервере произошла ошибка' : message,
-  });
-});
-
-app.listen(PORT, (error) => {
-  // eslint-disable-next-line
-  error ? console.log(error) : console.log(`listening port ${PORT}`);
-});
+app.use(CustomError);

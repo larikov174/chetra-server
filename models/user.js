@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const isEmail = require('validator/lib/isEmail');
-const CustomError = require('../utils/custom-error');
+const CustomError = require('../middlewares/custom-error-router');
 
 const userSchema = new mongoose.Schema(
   {
@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema(
     },
     name: {
       type: String,
+      required: true,
       minlength: 2,
       maxlength: 30,
       default: 'Пользователь',

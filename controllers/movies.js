@@ -1,10 +1,9 @@
 const Movie = require('../models/movie');
-const CustomError = require('../utils/custom-error');
+const CustomError = require('../middlewares/custom-error-router');
 
 module.exports.getMovies = (req, res, next) => {
   Movie.find({})
     .populate(['owner'])
-    // TODO: определить логику сортировки
     .then((movie) => res.status(200).send(movie.sort((a, b) => b.createdAt - a.createdAt)))
     .catch(next);
 };

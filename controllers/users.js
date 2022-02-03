@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
-const CustomError = require('../utils/custom-error');
+const CustomError = require('../middlewares/custom-error-router');
 
 module.exports.getUser = (req, res, next) => {
   User.findById(req.user._id)
