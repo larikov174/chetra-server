@@ -81,9 +81,7 @@ const movieSchema = new mongoose.Schema(
       required: true,
     },
     movieId: {
-      type: mongoose.Types.ObjectId,
-      // TODO: проверить ссылку
-      ref: 'user',
+      type: String,
       required: true,
     },
     nameRU: {

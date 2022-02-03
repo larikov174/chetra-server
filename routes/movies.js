@@ -21,7 +21,7 @@ router.post('/', celebrate({
     trailerLink: Joi.string().required().pattern(regExp),
     thumbnail: Joi.string().required().pattern(regExp),
     // TODO: определить количество символов в id
-    movieId: Joi.string().hex().required(),
+    movieId: Joi.string().required(),
     nameRU: Joi.string().required().min(2).max(30),
     nameEN: Joi.string().required().min(2).max(30),
   }),
