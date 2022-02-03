@@ -5,8 +5,8 @@ module.exports = (req, res, next) => {
   const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
   const requestHeaders = req.headers['access-control-request-headers'];
   const allowedCors = [
-    'https://larikov.nomoredomains.rocks',
-    'http://larikov.nomoredomains.rocks',
+    'https://larikov.nomoredomains.work',
+    'http://larikov.nomoredomains.work',
     'http://localhost:3000',
   ];
 
