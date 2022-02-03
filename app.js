@@ -10,11 +10,13 @@ const cors = require('./middlewares/cors');
 const CustomError = require('./middlewares/custom-error-handler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { db } = require('./utils/const');
+const limiter = require('./utils/limiter');
 
 const { PORT = 3000, DB = db } = process.env;
 const app = express();
 
 app.use(helmet());
+app.use(limiter);
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
