@@ -77,5 +77,5 @@ module.exports.updateUser = (req, res, next) => {
       name: user.name,
       email: user.email,
     }))
-    .catch(next);
+    .catch(() => next(new CustomError(409, 'Ошибка передаваемых данных')));
 };
