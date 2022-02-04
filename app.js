@@ -23,8 +23,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors);
 app.use(router);
-app.use(errors());
 app.use(errorLogger);
+app.use(errors());
 app.use(errorHandler);
 
 mongoose
