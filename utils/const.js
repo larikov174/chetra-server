@@ -14,6 +14,8 @@ module.exports.errorMassege = {
   defaultError: 'Произошла ошибка на сервере.',
 };
 
+module.exports.devJWT = 'dev-secret';
+
 module.exports.allowedCors = [
   'https://larikov.nomoredomains.work',
   'http://larikov.nomoredomains.work',
