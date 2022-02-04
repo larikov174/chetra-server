@@ -6,8 +6,13 @@ module.exports.errorMassege = {
   wrongData: 'Переданы невалидные данные.',
   wrongUserData: 'Неправильные почта или пароль',
   needAuth: 'Необходима авторизация',
-  defaultError: 'Произошла ошибка на сервере.',
   alreadyExists: 'Переданные данные уже есть в базе.',
   sessionClosed: 'сессия закрыта',
   authSuccess: 'Авторизация успешна.',
+  defaultError: 'Произошла ошибка на сервере.',
 };
+module.exports.allowedCors = [
+  'https://larikov.nomoredomains.work',
+  'http://larikov.nomoredomains.work',
+  'http://localhost:3000',
+];

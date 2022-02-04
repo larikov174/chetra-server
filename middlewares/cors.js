@@ -1,13 +1,10 @@
+const { allowedCors } = require('../utils/const');
+
 module.exports = (req, res, next) => {
   const { method } = req;
   const { origin } = req.headers;
   const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
   const requestHeaders = req.headers['access-control-request-headers'];
-  const allowedCors = [
-    'https://larikov.nomoredomains.work',
-    'http://larikov.nomoredomains.work',
-    'http://localhost:3000',
-  ];
 
   if (allowedCors.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);

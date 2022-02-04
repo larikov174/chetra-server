@@ -7,10 +7,10 @@ const helmet = require('helmet');
 const { errors } = require('celebrate');
 const router = require('./routes/index');
 const cors = require('./middlewares/cors');
-const CustomError = require('./middlewares/custom-error-handler');
+const limiter = require('./middlewares/limiter');
+const errorHandler = require('./middlewares/custom-error-handler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { db } = require('./utils/const');
-const limiter = require('./utils/limiter');
 
 const { PORT = 3000, DB = db } = process.env;
 const app = express();
@@ -23,9 +23,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors);
 app.use(router);
-app.use(errorLogger);
 app.use(errors());
-app.use(CustomError);
+app.use(errorLogger);
+app.use(errorHandler);
 
 mongoose
   .connect(DB, {
