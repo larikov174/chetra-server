@@ -1,5 +1,6 @@
 const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
+const { regExp } = require('../utils/const');
 
 const loginValidation = celebrate({
   body: Joi.object().keys({
@@ -36,19 +37,19 @@ const createMovieValidation = celebrate({
     duration: Joi.number().required().min(2).max(300),
     year: Joi.string().required().length(4),
     description: Joi.string().required().min(2).max(2000),
-    image: Joi.string().required().custom((value, helpers) => {
+    image: Joi.string().required().pattern(regExp).custom((value, helpers) => {
       if (validator.isURL(value)) {
         return value;
       }
       return helpers.message('В данных поля image обнаружены ошибки.');
     }),
-    trailer: Joi.string().required().custom((value, helpers) => {
+    trailer: Joi.string().required().pattern(regExp).custom((value, helpers) => {
       if (validator.isURL(value)) {
         return value;
       }
       return helpers.message('В данных поля trailer обнаружены ошибки.');
     }),
-    thumbnail: Joi.string().required().custom((value, helpers) => {
+    thumbnail: Joi.string().required().pattern(regExp).custom((value, helpers) => {
       if (validator.isURL(value)) {
         return value;
       }

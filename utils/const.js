@@ -1,4 +1,5 @@
 module.exports.db = 'mongodb://localhost:27017/moviesdb';
+
 module.exports.errorMassege = {
   pageNotFound: 'Страница не найдена.',
   userNotFound: 'Пользователь не найден.',
@@ -12,8 +13,11 @@ module.exports.errorMassege = {
   authSuccess: 'Авторизация успешна.',
   defaultError: 'Произошла ошибка на сервере.',
 };
+
 module.exports.allowedCors = [
   'https://larikov.nomoredomains.work',
   'http://larikov.nomoredomains.work',
   'http://localhost:3000',
 ];
+
+module.exports.regExp = /(https?:\/\/(www\.)?)[\w-]+\.[\w./():,-]+/;
