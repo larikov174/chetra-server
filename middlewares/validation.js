@@ -42,11 +42,11 @@ const createMovieValidation = celebrate({
       }
       return helpers.message('В данных поля image обнаружены ошибки.');
     }),
-    trailerLink: Joi.string().required().custom((value, helpers) => {
+    trailer: Joi.string().required().custom((value, helpers) => {
       if (validator.isURL(value)) {
         return value;
       }
-      return helpers.message('В данных поля trailerLink обнаружены ошибки.');
+      return helpers.message('В данных поля trailer обнаружены ошибки.');
     }),
     thumbnail: Joi.string().required().custom((value, helpers) => {
       if (validator.isURL(value)) {

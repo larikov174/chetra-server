@@ -77,15 +77,27 @@ module.exports.logout = (req, res) => {
 
 module.exports.updateUser = (req, res, next) => {
   const { name, email } = req.body;
+  const currentUser = req.user._id;
   User.findByIdAndUpdate(
-    req.user._id,
+    currentUser,
     { name, email },
     { new: true, runValidators: true },
   )
-    .orFail(new CustomError(404, userNotFound))
-    .then((user) => res.status(200).send({
-      name: user.name,
-      email: user.email,
-    }))
-    .catch(() => next(new CustomError(409, wrongData)));
+    .then((user) => {
+      if (user) {
+        res.status(200).send({
+          name: user.name,
+          email: user.email,
+        });
+      } else {
+        next(new CustomError(404, userNotFound));
+      }
+    })
+    .catch((err) => {
+      if (err.code === 11000) {
+        next(new CustomError(409, `db err code-${err.code} (${alreadyExists})`));
+      } else if (err.name === 'ValidationError') {
+        next(new CustomError(400, wrongData));
+      } else { next(err); }
+    });
 };

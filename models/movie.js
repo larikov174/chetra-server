@@ -49,7 +49,7 @@ const movieSchema = new mongoose.Schema(
       default:
         '../static/default-poster.png',
     },
-    trailerLink: {
+    trailer: {
       type: String,
       lowercase: true,
       required: true,

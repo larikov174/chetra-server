@@ -3,7 +3,7 @@ const CustomError = require('../middlewares/custom-error-router');
 const { errorMassege } = require('../utils/const');
 
 const {
-  needAuth,
+  permissionDenied,
   alreadyExists,
   wrongData,
   movieNotFound,
@@ -18,7 +18,7 @@ module.exports.getMovies = (req, res, next) => {
 
 module.exports.createMovie = (req, res, next) => {
   const {
-    country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, movieId,
+    country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId,
   } = req.body;
 
   Movie.countDocuments({ movieId }, (_, count) => {
@@ -30,7 +30,7 @@ module.exports.createMovie = (req, res, next) => {
         year,
         description,
         image,
-        trailerLink,
+        trailer,
         nameRU,
         nameEN,
         thumbnail,
@@ -60,7 +60,7 @@ module.exports.deleteMovie = (req, res, next) => {
         return movie.remove()
           .then((deletedCard) => res.status(200).send(deletedCard));
       }
-      throw new CustomError(403, needAuth);
+      throw new CustomError(403, permissionDenied);
     })
     .catch(next);
 };

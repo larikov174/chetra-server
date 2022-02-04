@@ -6,6 +6,7 @@ module.exports.errorMassege = {
   wrongData: 'Переданы невалидные данные.',
   wrongUserData: 'Неправильные почта или пароль',
   needAuth: 'Необходима авторизация',
+  permissionDenied: 'У Вас нет прав на это действие.',
   alreadyExists: 'Переданные данные уже есть в базе.',
   sessionClosed: 'сессия закрыта',
   authSuccess: 'Авторизация успешна.',
