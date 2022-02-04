@@ -57,13 +57,10 @@ module.exports.deleteMovie = (req, res, next) => {
     .orFail(new CustomError(404, movieNotFound))
     .then((movie) => {
       if (movie.owner.equals(req.user._id)) {
-        Movie.findByIdAndDelete(req.params.id)
-          .populate(['owner'])
-          .orFail(new CustomError(404, movieNotFound))
+        return movie.remove()
           .then((deletedCard) => res.status(200).send(deletedCard));
-      } else {
-        throw new CustomError(403, needAuth);
       }
+      throw new CustomError(403, needAuth);
     })
     .catch(next);
 };
