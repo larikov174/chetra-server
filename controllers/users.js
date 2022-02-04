@@ -1,13 +1,23 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const { errorMassege } = require('../utils/const');
+
+const {
+  needAuth,
+  alreadyExists,
+  wrongData,
+  userNotFound,
+  sessionClosed,
+  authSuccess,
+} = errorMassege;
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 const CustomError = require('../middlewares/custom-error-router');
 
 module.exports.getUser = (req, res, next) => {
   User.findById(req.user._id)
-    .orFail(new CustomError(401, 'Вы не авторизованы в системе'))
+    .orFail(new CustomError(401, needAuth))
     .then((user) => res.status(200).send(user))
     .catch(next);
 };
@@ -22,9 +32,9 @@ module.exports.createUser = (req, res, next) => {
       .then((user) => res.status(200).send({ _id: user._id }))
       .catch((err) => {
         if (err.code === 11000) {
-          next(new CustomError(409, `db err code ${err.code} (email уже зарегистрирован)`));
+          next(new CustomError(409, `db err code-${err.code} (${alreadyExists})`));
         } else if (err.name === 'ValidationError') {
-          next(new CustomError(400, 'Переданы невалидные данные.'));
+          next(new CustomError(400, wrongData));
         } else { next(err); }
       });
   });
@@ -49,7 +59,7 @@ module.exports.login = (req, res, next) => {
         httpOnly: true,
         sameSite: true,
       });
-      res.status(200).send({ login: 'ok' })
+      res.status(200).send({ login: authSuccess })
         .end();
     })
     .catch(next);
@@ -62,7 +72,7 @@ module.exports.logout = (req, res) => {
     httpOnly: true,
     sameSite: true,
   });
-  return res.status(200).send({ status: 'сессия закрыта' });
+  return res.status(200).send({ status: sessionClosed });
 };
 
 module.exports.updateUser = (req, res, next) => {
@@ -72,10 +82,10 @@ module.exports.updateUser = (req, res, next) => {
     { name, email },
     { new: true, runValidators: true },
   )
-    .orFail(new CustomError(404, 'Данный пользователь не найден'))
+    .orFail(new CustomError(404, userNotFound))
     .then((user) => res.status(200).send({
       name: user.name,
       email: user.email,
     }))
-    .catch(() => next(new CustomError(409, 'Ошибка передаваемых данных')));
+    .catch(() => next(new CustomError(409, wrongData)));
 };

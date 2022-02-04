@@ -1,5 +1,13 @@
 const Movie = require('../models/movie');
 const CustomError = require('../middlewares/custom-error-router');
+const { errorMassege } = require('../utils/const');
+
+const {
+  needAuth,
+  alreadyExists,
+  wrongData,
+  movieNotFound,
+} = errorMassege;
 
 module.exports.getMovies = (req, res, next) => {
   Movie.find({})
@@ -31,30 +39,30 @@ module.exports.createMovie = (req, res, next) => {
       })
         .then((movie) => Movie.findById(movie._id)
           .populate(['owner'])
-          .orFail(new CustomError(404, 'Ошибка добавления в базу'))
+          .orFail(new CustomError(404, movieNotFound))
           .then((newMovie) => res.status(200).send(newMovie)))
         .catch((err) => {
           if (err.name === 'ValidationError') {
-            next(new CustomError(400, 'Переданы невалидные данные.'));
+            next(new CustomError(400, wrongData));
           } else { next(err); }
         });
     } else {
-      res.status(409).send({ massage: 'Данный фильм был добавлен ранее' });
+      res.status(409).send({ massage: alreadyExists });
     }
   });
 };
 
 module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(req.params.id)
-    .orFail(new CustomError(404, 'Фильм по указанному _id в базе не найден'))
+    .orFail(new CustomError(404, movieNotFound))
     .then((movie) => {
       if (movie.owner.equals(req.user._id)) {
         Movie.findByIdAndDelete(req.params.id)
           .populate(['owner'])
-          .orFail(new CustomError(404, 'Ошибка удаления. Фильм по указанному _id не найден'))
+          .orFail(new CustomError(404, movieNotFound))
           .then((deletedCard) => res.status(200).send(deletedCard));
       } else {
-        throw new CustomError(403, 'У вас нет прав на это действие');
+        throw new CustomError(403, needAuth);
       }
     })
     .catch(next);

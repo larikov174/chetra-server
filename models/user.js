@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const isEmail = require('validator/lib/isEmail');
 const CustomError = require('../middlewares/custom-error-router');
+const { errorMassege } = require('../utils/const');
 
 const userSchema = new mongoose.Schema(
   {
@@ -13,7 +14,6 @@ const userSchema = new mongoose.Schema(
         validator(v) {
           return isEmail(v);
         },
-        message: 'Указан некорректный email',
       },
     },
     password: {
@@ -42,14 +42,14 @@ userSchema.statics.findUserByCredentials = function findUserByCredentials(
     .then((user) => {
       if (!user) {
         return Promise.reject(
-          new CustomError(401, 'Неправильные почта или пароль'),
+          new CustomError(401, errorMassege.wrongUserData),
         );
       }
 
       return bcrypt.compare(password, user.password).then((matched) => {
         if (!matched) {
           return Promise.reject(
-            new CustomError(401, 'Неправильные почта или пароль'),
+            new CustomError(401, errorMassege.wrongUserData),
           );
         }
         return user;
