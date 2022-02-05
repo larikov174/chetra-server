@@ -47,7 +47,7 @@ module.exports.createMovie = (req, res, next) => {
           } else { next(err); }
         });
     } else {
-      res.status(409).send({ massage: alreadyExists });
+      next(new CustomError(409, alreadyExists));
     }
   });
 };
