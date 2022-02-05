@@ -1,4 +1,4 @@
-const { errorMassege } = require('../utils/const');
+const { errorMessage } = require('../utils/const');
 
 module.exports = (err, req, res, next) => {
   res
@@ -6,7 +6,7 @@ module.exports = (err, req, res, next) => {
     .send({
       message: err.statusCode
         ? `code-${err.statusCode}. ${err.message}`
-        : errorMassege.defaultError,
+        : errorMessage.defaultError,
     });
   return next();
 };

@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const { errorMassege } = require('../utils/const');
+const { errorMessage } = require('../utils/const');
 
 const {
   needAuth,
@@ -10,7 +10,7 @@ const {
   userNotFound,
   sessionClosed,
   authSuccess,
-} = errorMassege;
+} = errorMessage;
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 const CustomError = require('../middlewares/custom-error-router');

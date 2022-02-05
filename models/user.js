@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const isEmail = require('validator/lib/isEmail');
 const CustomError = require('../middlewares/custom-error-router');
-const { errorMassege } = require('../utils/const');
+const { errorMessage } = require('../utils/const');
 
 const userSchema = new mongoose.Schema(
   {
@@ -42,14 +42,14 @@ userSchema.statics.findUserByCredentials = function findUserByCredentials(
     .then((user) => {
       if (!user) {
         return Promise.reject(
-          new CustomError(401, errorMassege.wrongUserData),
+          new CustomError(401, errorMessage.wrongUserData),
         );
       }
 
       return bcrypt.compare(password, user.password).then((matched) => {
         if (!matched) {
           return Promise.reject(
-            new CustomError(401, errorMassege.wrongUserData),
+            new CustomError(401, errorMessage.wrongUserData),
           );
         }
         return user;

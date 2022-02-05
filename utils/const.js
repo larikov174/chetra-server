@@ -1,6 +1,6 @@
 module.exports.db = 'mongodb://localhost:27017/moviesdb';
 
-module.exports.errorMassege = {
+module.exports.errorMessage = {
   pageNotFound: 'Страница не найдена.',
   userNotFound: 'Пользователь не найден.',
   movieNotFound: 'Фильм не найден.',

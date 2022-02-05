@@ -1,13 +1,13 @@
 const Movie = require('../models/movie');
 const CustomError = require('../middlewares/custom-error-router');
-const { errorMassege } = require('../utils/const');
+const { errorMessage } = require('../utils/const');
 
 const {
   permissionDenied,
   alreadyExists,
   wrongData,
   movieNotFound,
-} = errorMassege;
+} = errorMessage;
 
 module.exports.getMovies = (req, res, next) => {
   Movie.find({})
