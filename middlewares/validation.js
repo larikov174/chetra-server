@@ -26,7 +26,7 @@ const createUserValidation = celebrate({
 
 const movieIdValidation = celebrate({
   params: Joi.object().keys({
-    id: Joi.string().hex().required(),
+    id: Joi.string().hex().length(24).required(),
   }),
 });
 
@@ -55,7 +55,7 @@ const createMovieValidation = celebrate({
       }
       return helpers.message('В данных поля thumbnail обнаружены ошибки.');
     }),
-    movieId: Joi.string().required(),
+    movieId: Joi.number().required(),
     nameRU: Joi.string().required().min(2).max(30),
     nameEN: Joi.string().required().min(2).max(30),
   }),
