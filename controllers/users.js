@@ -32,7 +32,7 @@ module.exports.createUser = (req, res, next) => {
       .then((user) => res.status(200).send({ _id: user._id }))
       .catch((err) => {
         if (err.code === 11000) {
-          next(new CustomError(409, `db err code-${err.code} (${alreadyExists})`));
+          next(new CustomError(409, alreadyExists));
         } else if (err.name === 'ValidationError') {
           next(new CustomError(400, wrongData));
         } else { next(err); }
@@ -95,7 +95,7 @@ module.exports.updateUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === 11000) {
-        next(new CustomError(409, `db err code-${err.code} (${alreadyExists})`));
+        next(new CustomError(409, alreadyExists));
       } else if (err.name === 'ValidationError') {
         next(new CustomError(400, wrongData));
       } else { next(err); }
