@@ -11,7 +11,6 @@ const {
 
 module.exports.getMovies = (req, res, next) => {
   Movie.find({})
-    .populate(['owner'])
     .then((movie) => res.status(200).send(movie.sort((a, b) => b.createdAt - a.createdAt)))
     .catch(next);
 };
