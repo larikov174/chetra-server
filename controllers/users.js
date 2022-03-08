@@ -29,7 +29,19 @@ module.exports.createUser = (req, res, next) => {
       .then(() => User.create({
         password: hashPassword, email, name,
       }))
-      .then((user) => res.status(200).send({ _id: user._id }))
+      .then((user) => {
+        const token = jwt.sign(
+          { _id: user._id },
+          NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+          { expiresIn: '7 days' },
+        );
+        res.cookie('jwt', token, {
+          maxAge: 365 * 24 * 60 * 60 * 1000,
+          httpOnly: true,
+          sameSite: true,
+        });
+        res.status(200).send({ _id: user._id, name: user.name, email: user.email });
+      })
       .catch((err) => {
         if (err.code === 11000) {
           next(new CustomError(409, alreadyExists));
@@ -55,11 +67,11 @@ module.exports.login = (req, res, next) => {
         { expiresIn: '7 days' },
       );
       res.cookie('jwt', token, {
-        maxAge: 6048000,
+        maxAge: 365 * 24 * 60 * 60 * 1000,
         httpOnly: true,
         sameSite: true,
       });
-      res.status(200).send({ login: authSuccess })
+      res.status(200).send({ login: authSuccess, code: 200 })
         .end();
     })
     .catch(next);
@@ -68,7 +80,7 @@ module.exports.login = (req, res, next) => {
 module.exports.logout = (req, res) => {
   const token = req.cookies.jwt;
   res.clearCookie('jwt', token, {
-    maxAge: 6048000,
+    maxAge: 365 * 24 * 60 * 60 * 1000,
     httpOnly: true,
     sameSite: true,
   });
