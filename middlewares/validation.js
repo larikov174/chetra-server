@@ -31,8 +31,8 @@ const movieIdValidation = celebrate({
 
 const createMovieValidation = celebrate({
   body: Joi.object().keys({
-    country: Joi.string().required().min(2).max(30),
-    director: Joi.string().required().min(2).max(30),
+    country: Joi.string().required().min(2).max(300),
+    director: Joi.string().required().min(2).max(300),
     duration: Joi.number().required().min(2).max(300),
     year: Joi.string().required().length(4),
     description: Joi.string().required().min(2).max(2000),
@@ -55,8 +55,8 @@ const createMovieValidation = celebrate({
       return helpers.message('В данных поля thumbnail обнаружены ошибки.');
     }),
     movieId: Joi.number().required(),
-    nameRU: Joi.string().required().min(2).max(30),
-    nameEN: Joi.string().required().min(2).max(30),
+    nameRU: Joi.string().required().min(2).max(300),
+    nameEN: Joi.string().required().min(2).max(300),
   }),
 });
 
