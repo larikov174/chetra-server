@@ -1,5 +1,5 @@
-# movies-explorer-api
-Backend for diploma project Yandex Praktikum
+# chetra-api
+Backend for chetra game
 
-## ip 51.250.6.249
-## https://api.larikov.nomoredomains.work
+## ip xxx.xxx.xxx
+## https://xxx.xxx.xxx
