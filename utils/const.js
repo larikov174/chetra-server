@@ -1,4 +1,4 @@
-module.exports.db = 'mongodb://localhost:27017/moviesdb';
+module.exports.db = 'mongodb://localhost:27017/chetradb';
 
 module.exports.errorMessage = {
   pageNotFound: 'Страница не найдена.',
