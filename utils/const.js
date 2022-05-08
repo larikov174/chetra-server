@@ -17,8 +17,6 @@ module.exports.errorMessage = {
 module.exports.devJWT = 'dev-secret';
 
 module.exports.allowedCors = [
-  'https://larikov.nomoredomains.work',
-  'http://larikov.nomoredomains.work',
   'http://localhost:3000',
 ];
 
