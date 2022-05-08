@@ -4,15 +4,6 @@ const { errorMessage } = require('../utils/const');
 
 const { wrongData } = errorMessage;
 
-module.exports.getUserByEmail = (req, res, next) => {
-  const { email } = req.body;
-  Result.find({ email })
-    .then((user) => {
-      res.status(200).send(user[0]._id);
-    })
-    .catch(next);
-};
-
 module.exports.createResult = (req, res, next) => {
   const { result, email } = req.body;
 
