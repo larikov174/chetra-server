@@ -34,6 +34,9 @@ const resultSchema = new mongoose.Schema({
     default: Date.now,
     required: true,
   },
+  updatedAt: {
+    type: Date,
+  },
 }, {
   versionKey: false,
 });
