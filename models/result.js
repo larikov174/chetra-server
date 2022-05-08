@@ -26,7 +26,7 @@ const resultSchema = new mongoose.Schema(
       type: Number,
       min: 0,
       max: 3000,
-      default: 0,
+      default: 1,
       required: true,
     },
 
@@ -43,7 +43,7 @@ const resultSchema = new mongoose.Schema(
     },
   },
   {
-    versionKey: 'v',
+    versionKey: false,
   },
   {
     timestamps: true,

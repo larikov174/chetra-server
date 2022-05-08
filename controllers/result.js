@@ -14,12 +14,11 @@ module.exports.getUserByEmail = (req, res, next) => {
 };
 
 module.exports.createResult = (req, res, next) => {
-  const { result, email, attempt } = req.body;
+  const { result, email } = req.body;
 
   Result.create({
     result,
     email,
-    attempt,
   })
     .then((newResult) => res.status(200).send(newResult))
     .catch((err) => {
@@ -35,12 +34,12 @@ module.exports.createResult = (req, res, next) => {
 };
 
 module.exports.updateResult = (req, res) => {
-  const { result, attempt } = req.body;
+  const { result } = req.body;
   Result.findByIdAndUpdate(
     req.params.id,
     {
       result,
-      attempt,
+      $inc: { attempt: 1 },
       updatedAt: Date.now(),
     },
     {
@@ -52,6 +51,7 @@ module.exports.updateResult = (req, res) => {
     .then((item) => res.status(200).send({
       result: item.result,
       attempt: item.attempt,
+      updatedAt: item.updatedAt,
     }))
     .catch((err) => {
       if (err.message === 'Not Found') {
