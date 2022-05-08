@@ -7,7 +7,7 @@ const { userNotFound } = errorMessage;
 module.exports.getUserByEmail = (req, res, next) => {
   const { email } = req.body;
   Result.find({ email })
-    .orFail(new CustomError(401, userNotFound))
+    .orFail(new CustomError(404, userNotFound))
     .then((user) => {
       res.status(200).send(user[0]._id);
     })
