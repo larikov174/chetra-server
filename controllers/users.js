@@ -1,4 +1,3 @@
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const { errorMessage } = require('../utils/const');
@@ -23,38 +22,29 @@ module.exports.getUser = (req, res, next) => {
 };
 
 module.exports.createUser = (req, res, next) => {
-  const { email, password, name } = req.body;
-  bcrypt.hash(password, 10).then((hashPassword) => {
-    User.init()
-      .then(() => User.create({
-        password: hashPassword, email, name,
-      }))
-      .then((user) => {
-        const token = jwt.sign(
-          { _id: user._id },
-          NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
-          { expiresIn: '7 days' },
-        );
-        res.cookie('jwt', token, {
-          maxAge: 365 * 24 * 60 * 60 * 1000,
-          httpOnly: true,
-          sameSite: true,
-        });
-        res.status(200).send({ _id: user._id, name: user.name, email: user.email });
-      })
-      .catch((err) => {
-        if (err.code === 11000) {
-          next(new CustomError(409, alreadyExists));
-        } else if (err.name === 'ValidationError') {
-          next(new CustomError(400, wrongData));
-        } else { next(err); }
-      });
-  });
+  const { email } = req.body;
+  User.init()
+    .then(() => User.create({
+      email,
+    }))
+    .then((user) => {
+      res
+        .status(200)
+        .send({ _id: user._id, email: user.email });
+    })
+    .catch((err) => {
+      if (err.code === 11000) {
+        next(new CustomError(409, alreadyExists));
+      } else if (err.name === 'ValidationError') {
+        next(new CustomError(400, wrongData));
+      } else {
+        next(err);
+      }
+    });
 };
 
 module.exports.checkToken = (req, res) => {
-  res.status(200).send({ token: 'ok' })
-    .end();
+  res.status(200).send({ token: 'ok' }).end();
 };
 
 module.exports.login = (req, res, next) => {
@@ -71,8 +61,7 @@ module.exports.login = (req, res, next) => {
         httpOnly: true,
         sameSite: true,
       });
-      res.status(200).send({ login: authSuccess, code: 200 })
-        .end();
+      res.status(200).send({ login: authSuccess, code: 200 }).end();
     })
     .catch(next);
 };
@@ -110,6 +99,8 @@ module.exports.updateUser = (req, res, next) => {
         next(new CustomError(409, alreadyExists));
       } else if (err.name === 'ValidationError') {
         next(new CustomError(400, wrongData));
-      } else { next(err); }
+      } else {
+        next(err);
+      }
     });
 };

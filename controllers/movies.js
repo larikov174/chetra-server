@@ -1,36 +1,14 @@
-const Movie = require('../models/movie');
+const Result = require('../models/result');
 const CustomError = require('../middlewares/custom-error-router');
 const { errorMessage } = require('../utils/const');
 
-const {
-  permissionDenied,
-  wrongData,
-  movieNotFound,
-} = errorMessage;
+const { wrongData } = errorMessage;
 
-module.exports.getMovies = (req, res, next) => {
-  Movie.find({ owner: req.user._id })
-    .then((movie) => res.status(200).send(movie.sort((a, b) => b.createdAt - a.createdAt)))
-    .catch(next);
-};
+module.exports.createResult = (req, res, next) => {
+  const { result } = req.body;
 
-module.exports.createMovie = (req, res, next) => {
-  const {
-    country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId,
-  } = req.body;
-
-  Movie.create({
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailer,
-    nameRU,
-    nameEN,
-    thumbnail,
-    movieId,
+  Result.create({
+    result,
     owner: req.user._id,
   })
     .then((newMovie) => res.status(200).send(newMovie))
@@ -44,15 +22,29 @@ module.exports.createMovie = (req, res, next) => {
     .catch(next);
 };
 
-module.exports.deleteMovie = (req, res, next) => {
-  Movie.findById(req.params.id)
-    .orFail(new CustomError(404, movieNotFound))
-    .then((movie) => {
-      if (movie.owner.equals(req.user._id)) {
-        return movie.remove()
-          .then((deletedCard) => res.status(200).send(deletedCard));
+module.exports.updateResult = (req, res) => {
+  const { result } = req.body;
+  Result.findByIdAndUpdate(
+    req.params.user._id,
+    {
+      result,
+    },
+    { new: true, runValidators: true },
+  )
+    .orFail(new Error('Not Found'))
+    .then((item) => res.status(200).send({
+      result: item.result,
+    }))
+    .catch((err) => {
+      if (err.message === 'Not Found') {
+        res
+          .status(404)
+          .send({ message: 'Пользователь по указанному _id не найден' });
       }
-      throw new CustomError(403, permissionDenied);
-    })
-    .catch(next);
+      if (err.name === 'ValidationError') {
+        res.status(400).send({ message: 'Переданы некорректные данные.' });
+      } else {
+        res.status(500).send({ message: 'Ошибка. Сервер не отвечает.' });
+      }
+    });
 };
