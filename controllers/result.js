@@ -41,6 +41,7 @@ module.exports.updateResult = (req, res) => {
     {
       result,
       attempt,
+      updatedAt: Date.now(),
     },
     {
       new: true,
