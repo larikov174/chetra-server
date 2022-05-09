@@ -3,6 +3,6 @@ const { createResultValidation, updateResultValidation } = require('../middlewar
 const { createResult, updateResult } = require('../controllers/result');
 
 router.post('/', createResultValidation, createResult);
-router.put('/:id', updateResultValidation, updateResult);
+router.patch('/:id', updateResultValidation, updateResult);
 
 module.exports = router;
