@@ -14,6 +14,7 @@ module.exports.devJWT = 'dev-secret';
 
 module.exports.allowedCors = [
   'http://localhost:3000',
+  'http://localhost:8080',
   'https://larikov.online/chetra',
 ];
 
