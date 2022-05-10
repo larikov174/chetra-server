@@ -17,7 +17,7 @@ module.exports.updateResult = (req, res, next) => {
   Result.findOneAndUpdate(
     { email },
     {
-      result,
+      $max: { result },
       $inc: { attempt: 1 },
       updatedAt: Date.now(),
     },
